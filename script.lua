@@ -1,3 +1,11 @@
+pcall(function()
+	for _,v in pairs(game.CoreGui:GetChildren()) do
+		if v.Name == "KienDepTraiUI" then
+			v:Destroy()
+		end
+	end
+end)
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
@@ -9,8 +17,9 @@ local AIMBOT_ENABLED = false
 local currentTarget = nil
 
 -- UI
-local gui = Instance.new("ScreenGui", player.PlayerGui)
-gui.ResetOnSpawn = false
+local gui = Instance.new("ScreenGui")
+gui.Name = "KienDepTraiUI"
+gui.Parent = game.CoreGui
 
 local frame = Instance.new("Frame", gui)
 frame.Size = UDim2.new(0,200,0,280)
@@ -33,10 +42,9 @@ task.spawn(function()
 	end
 end)
 
--- 🏷️ TITLE
+-- TITLE
 local title = Instance.new("TextLabel", frame)
 title.Size = UDim2.new(1,0,0.15,0)
-title.Position = UDim2.new(0,0,0,0)
 title.BackgroundTransparency = 1
 title.Text = "KienDepTrai"
 title.TextColor3 = Color3.new(1,1,1)
@@ -117,7 +125,7 @@ local function getNextTarget()
 	return list[1].player
 end
 
--- LOOP AIM (SNAP)
+-- LOOP AIM (SNAP 100%)
 RunService.RenderStepped:Connect(function()
 	if AIMBOT_ENABLED and currentTarget then
 		local char = currentTarget.Character
