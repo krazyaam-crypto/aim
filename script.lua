@@ -8,6 +8,7 @@ end)
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local UIS = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
@@ -125,7 +126,7 @@ local function getNextTarget()
 	return list[1].player
 end
 
--- LOOP AIM (SNAP 100%)
+-- LOOP AIM (SNAP)
 RunService.RenderStepped:Connect(function()
 	if AIMBOT_ENABLED and currentTarget then
 		local char = currentTarget.Character
@@ -157,4 +158,13 @@ end)
 
 resetBtn.MouseButton1Click:Connect(function()
 	currentTarget = getNearest()
+end)
+
+-- ⌨️ PHÍM G ĐỔI TARGET
+UIS.InputBegan:Connect(function(input, gameProcessed)
+	if gameProcessed then return end
+	
+	if input.KeyCode == Enum.KeyCode.G then
+		currentTarget = getNextTarget()
+	end
 end)
