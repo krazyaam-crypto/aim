@@ -1,13 +1,11 @@
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local UIS = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 
 -- STATE
 local AIMBOT_ENABLED = false
-local HOLD = false
 local currentTarget = nil
 
 -- UI
@@ -15,7 +13,7 @@ local gui = Instance.new("ScreenGui", player.PlayerGui)
 gui.ResetOnSpawn = false
 
 local frame = Instance.new("Frame", gui)
-frame.Size = UDim2.new(0,200,0,280) -- FIX CAO HƠN
+frame.Size = UDim2.new(0,200,0,280)
 frame.Position = UDim2.new(0.05,0,0.4,0)
 frame.BackgroundColor3 = Color3.fromRGB(20,20,20)
 frame.Active = true
@@ -60,7 +58,7 @@ end
 
 local aimBtn = makeBtn("AIMBOT: OFF", UDim2.new(0.05,0,0.15,0))
 local switchBtn = makeBtn("NEXT TARGET", UDim2.new(0.05,0,0.35,0))
-local resetBtn = makeBtn("RESET TARGET", UDim2.new(0.05,0,0.55,0)) -- FIX VỊ TRÍ
+local resetBtn = makeBtn("RESET TARGET", UDim2.new(0.05,0,0.55,0))
 
 local label = Instance.new("TextLabel", frame)
 label.Size = UDim2.new(0.9,0,0.15,0)
@@ -70,19 +68,6 @@ label.TextColor3 = Color3.new(1,1,1)
 label.Text = "Target: None"
 label.Font = Enum.Font.GothamBold
 label.TextScaled = true
-
--- HOLD CHUỘT PHẢI
-UIS.InputBegan:Connect(function(i)
-	if i.UserInputType == Enum.UserInputType.MouseButton2 then
-		HOLD = true
-	end
-end)
-
-UIS.InputEnded:Connect(function(i)
-	if i.UserInputType == Enum.UserInputType.MouseButton2 then
-		HOLD = false
-	end
-end)
 
 -- NEAREST
 local function getNearest()
@@ -132,13 +117,12 @@ local function getNextTarget()
 	return list[1].player
 end
 
--- LOOP AIM
+-- LOOP AIM (SNAP)
 RunService.RenderStepped:Connect(function()
-	if AIMBOT_ENABLED and currentTarget and HOLD then
+	if AIMBOT_ENABLED and currentTarget then
 		local char = currentTarget.Character
 		if char and char:FindFirstChild("Head") then
-			local targetCF = CFrame.new(camera.CFrame.Position, char.Head.Position)
-			camera.CFrame = camera.CFrame:Lerp(targetCF, 0.15)
+			camera.CFrame = CFrame.new(camera.CFrame.Position, char.Head.Position)
 		end
 	end
 
