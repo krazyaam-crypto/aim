@@ -15,7 +15,7 @@ local gui = Instance.new("ScreenGui", player.PlayerGui)
 gui.ResetOnSpawn = false
 
 local frame = Instance.new("Frame", gui)
-frame.Size = UDim2.new(0,200,0,200)
+frame.Size = UDim2.new(0,200,0,240)
 frame.Position = UDim2.new(0.05,0,0.4,0)
 frame.BackgroundColor3 = Color3.fromRGB(20,20,20)
 frame.Active = true
@@ -37,7 +37,7 @@ end)
 
 -- 🏷️ TITLE
 local title = Instance.new("TextLabel", frame)
-title.Size = UDim2.new(1,0,0.2,0)
+title.Size = UDim2.new(1,0,0.18,0)
 title.Position = UDim2.new(0,0,0,0)
 title.BackgroundTransparency = 1
 title.Text = "KienDepTrai"
@@ -48,7 +48,7 @@ title.TextScaled = true
 -- BUTTON
 local function makeBtn(text, pos)
 	local b = Instance.new("TextButton", frame)
-	b.Size = UDim2.new(0.9,0,0.2,0)
+	b.Size = UDim2.new(0.9,0,0.18,0)
 	b.Position = pos
 	b.Text = text
 	b.BackgroundColor3 = Color3.fromRGB(40,40,40)
@@ -58,12 +58,13 @@ local function makeBtn(text, pos)
 	return b
 end
 
-local aimBtn = makeBtn("AIMBOT: OFF", UDim2.new(0.05,0,0.22,0))
-local switchBtn = makeBtn("NEXT TARGET", UDim2.new(0.05,0,0.45,0))
+local aimBtn = makeBtn("AIMBOT: OFF", UDim2.new(0.05,0,0.2,0))
+local switchBtn = makeBtn("NEXT TARGET", UDim2.new(0.05,0,0.4,0))
+local resetBtn = makeBtn("RESET TARGET", UDim2.new(0.05,0,0.6,0))
 
 local label = Instance.new("TextLabel", frame)
-label.Size = UDim2.new(0.9,0,0.2,0)
-label.Position = UDim2.new(0.05,0,0.7,0)
+label.Size = UDim2.new(0.9,0,0.15,0)
+label.Position = UDim2.new(0.05,0,0.8,0)
 label.BackgroundTransparency = 1
 label.TextColor3 = Color3.new(1,1,1)
 label.Text = "Target: None"
@@ -101,7 +102,7 @@ local function getNearest()
 	return nearest
 end
 
--- NEXT TARGET (GẦN → XA)
+-- NEXT TARGET
 local function getNextTarget()
 	local list = {}
 
@@ -160,4 +161,9 @@ end)
 
 switchBtn.MouseButton1Click:Connect(function()
 	currentTarget = getNextTarget()
+end)
+
+-- 🔄 RESET BUTTON
+resetBtn.MouseButton1Click:Connect(function()
+	currentTarget = getNearest()
 end)
